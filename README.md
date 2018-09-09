@@ -1,0 +1,14 @@
+# oneServermanyClient_QT
+在qt下使用多线程实现一个服务器和多个客户端间的诗句通信
+包含的知识点：QTcpSocket、QTcpServer、QThread
+
+
+在client2server项目中，当连接一个client后，再连接一个client，发现前一个client无法继续与server进行通信，主要原因是：下一个cilent与前一个client
+均运行在一个线程里面，后一个cilent占据前一个client的线程，导致前一个client失去响应。也就是说，这个工程无论新建多少个client，只有最后一个client可以继续
+与server保持通信。
+怎么结局这种问题呢：应该知道，每一个clien连接server后，server均会创建一个与该clinet通信的socket，实现与不同client的通信，就需要对serverv创建不同client的
+socket。所以解决方法就是将server的socket运行在不同的线程中。
+
+涉及到的相关函数：QTcpServer的incomingconnection函数，QThread的start和run函数，QTcpso的readyRead读信号和按钮的click写信号
+
+
